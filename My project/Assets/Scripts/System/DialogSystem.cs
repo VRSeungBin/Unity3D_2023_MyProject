@@ -20,9 +20,31 @@ public class DialogSystem : MonoBehaviour
     public float typingSpeed = 0.1f;
     private bool isTypingEffect = false;
 
+    public Entity_Dialogue entity_dialogue;
+
     private void Awake()
     {
         SetAllClose();
+        if (dialogsDB)
+        {
+            Array.Clear(dialogs, 0, dialogs.Length);
+            Array.Resize(ref dialogs, entity_dialogue.sheets[0].list.Count);
+
+            int ArrayCursor = 0;
+
+            foreach(Entity_Dialogue.Param param in entity_dialogue.sheets[0].list)
+            {
+                dialogs[ArrayCursor].index = param.index;
+                dialogs[ArrayCursor].speakerUIindex = param.speakerUIindex;
+                dialogs[ArrayCursor].name = param.name;
+                dialogs[ArrayCursor].dialogue = param.dialogue;
+                dialogs[ArrayCursor].characterPath = param.characterPath;
+                dialogs[ArrayCursor].tweenType = param.tweenType;
+                dialogs[ArrayCursor].nextindex = param.nextindex;
+
+                ArrayCursor += 1;
+            }
+        }
     }
 
     public bool UpdateDialog(int currentIndex , bool InitType)
